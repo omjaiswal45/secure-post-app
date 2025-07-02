@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-start pb-20" style="background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%); background-attachment: fixed;">
+
+  <a href="/logout" class="fixed top-6 right-1 z-50 px-5 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-lg text-sm transition duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2">
+    Logout
+  </a>
+
+  <h1 class="mt-16 text-5xl md:text-6xl text-center text-white font-extrabold drop-shadow-lg mb-6 animate-fade-in">
+    Welcome to <span class="text-yellow-300"> 🛡️S.H.I.E.L.D.’s</span><br><br>
+    <span class="text-blue-200"> <%= user.username %> 🚀</span>
+  </h1>
+
+  <style>
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(-30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .animate-fade-in {
+      animation: fade-in 1s ease;
+    }
+  </style>
+
+  <!-- ✅ User Posts Section -->
+  <div class="w-full max-w-6xl px-6 mt-10">
+    <h2 class="text-2xl font-bold text-yellow-300 mb-4 text-center drop-shadow">📝 Your Posts</h2>
+
+    <% if (posts.length === 0) { %>
+      <p class="text-center text-gray-300 text-lg">No posts yet. Be the first to create one!</p>
+    <% } else { %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% posts.forEach(post => { %>
+          <div class="bg-white p-5 rounded-xl shadow-xl border border-blue-100 hover:shadow-2xl transition duration-300">
+            <h3 class="text-xl font-semibold text-purple-800 mb-2"><%= post.title %></h3>
+            <p class="text-gray-700 text-sm mb-3"><%= post.content %></p>
+            <div class="text-xs text-gray-400 flex justify-between items-center border-t pt-2 mt-2">
+              <span class="text-purple-800"><%= post.user?.name || post.user?.username || "Unknown" %></span>
+              <span class="text-gray-700"><%= new Date(post.date).toLocaleString() %></span>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- ✅ Post Creation Form -->
+  <div class="w-full max-w-md mt-14 rounded-xl bg-white shadow-md p-10">
+    <h1 class="text-xl font-bold text-gray-800">You create a new post</h1>
+    <form action="/post" method="POST">
+      <div class="mb-4">
+        <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+        <input id="title" name="title" type="text" required class="appearance-none border-2 border-gray-300 w-full py-2 px-3 text-gray-700 rounded-md focus:outline-none focus:border-blue-500" placeholder="Title">
+        
+        <label for="content" class="block text-sm font-medium text-gray-700 mt-2">Content</label>
+        <textarea id="content" name="content" required class="appearance-none border-2 border-gray-300 resize-none w-full py-4 px-3 text-gray-700" placeholder="Content"></textarea>
+        
+        <input type="submit" value="Create Post" class="w-full mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

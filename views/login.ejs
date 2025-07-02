@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 h-screen flex items-center justify-center">
+<div class="flex flex-col items-center justify-center h-screen">
+   <form class="max-w-md w-full bg-gradient-to-br from-white to-blue-50 shadow-2xl rounded-2xl p-8 border border-gray-200 transition duration-300 transform hover:scale-105" action="/login" method="post" >
+       <div class="max-w-md w-full bg-white shadow-lg rounded-lg p-6 border-4 border-blue-500 animate-border transition">
+           <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Login User</h2>
+
+         <div class="mb-4 ">
+            
+             <label for="email" class="block text-sm font-medium text-gray-700 mt-2">Email</label>
+             <input id="email" name="email" type="email" required class="appearance-none border-2 border-gray-300 w-full py-2 px-3   text-gray-700 rounded-md focus:outline-none focus:border-blue-500 max-w-md w-full bg-white shadow-2xl rounded-2xl p-8 border border-gray-200 transition duration-300 transform hover:scale-105" placeholder="email">
+
+
+             <label for="password" class="block text-sm font-medium text-gray-700 mt-2">Password</label>
+             <input id="password" name="password" type="password" required class="max-w-md w-full bg-white shadow-2xl rounded-2xl p-8 border border-gray-200 transition duration-300 transform hover:scale-105 appearance-none border-2 border-gray-300 w-full py-2    px-3 text-gray-700 rounded-md focus:outline-none focus:border-blue-500" placeholder="password">
+
+
+
+
+              <input type="submit" value="Login"
+               class="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-purple-600 hover:to-indigo-600 text-white font-semibold py-2 px-4 mt-4 rounded-xl shadow-md transition duration-300 transform hover:scale-105" />
+
+        </div>
+
+      </div>
+    </form> 
+  </div>
+  
+</body>
+</html>
