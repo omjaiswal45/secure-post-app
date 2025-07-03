@@ -7,6 +7,8 @@ const userSchema = mongoose.Schema({
   name: String ,
   password: String ,
   email: String ,
+  resetToken: String,
+  resetTokenExpiry: Date,
   profilepic:{
     type: String,
     default: 'default.jpg' // default profile picture
