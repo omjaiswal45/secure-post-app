@@ -7,6 +7,10 @@ const userSchema = mongoose.Schema({
   name: String ,
   password: String ,
   email: String ,
+  profilepic:{
+    type: String,
+    default: 'default.jpg' // default profile picture
+  } ,
   age: Number,
   posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Post'}] // references to posts created by this user
 

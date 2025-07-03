@@ -7,6 +7,8 @@ const jwt = require("jsonwebtoken");
 const userModel = require("./models/user");
 const postModel = require("./models/post");
 const path = require("path");
+const crypto = require("crypto");
+const upload = require("./config/multerconfig");
 
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
@@ -19,6 +21,19 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+//uploadprofileimage
+app.get("/uploadprofileimage/:id", authenticateToken , async (req, res) => {
+   const user = await userModel.findOne({ email: req.user.email });
+  res.render("uploadprofileimage", { user });
+});
+
+// upload profile image handler
+app.post("/uploadprofile/:id", authenticateToken, upload.single("image"), async (req, res) => {
+let user = await userModel.findOne({email: req.user.email });
+  user.profilepic = req.file.filename;
+  await user.save();
+  res.redirect("/profile");
+});
 // Login Page
 app.get("/login", (req, res) => {
   res.render("login");
@@ -80,7 +95,7 @@ app.get("/profile", authenticateToken, async (req, res) => {
 // Logout
 app.get("/logout", (req, res) => {
   res.clearCookie("token");
-  res.send("User logged out successfully");
+  res.redirect("/");
 });
 
 // Create Post
@@ -92,8 +107,42 @@ app.post("/post", authenticateToken, async (req, res) => {
   user.posts.push(post._id);
   await user.save();
 
-  res.redirect("/profile"); // Redirect to profile instead of /post
+  res.redirect("/profile"); // Redirect to profile
 });
+
+//likes a post
+app.get('/like/:id', authenticateToken, async (req, res) => {
+  let post = await postModel.findOne({_id: req.params.id}).populate('user');
+  if(post.likes.indexOf(req.user.userid)=== -1){
+    post.likes.push(req.user.userid);
+    await post.save();}
+  else{
+    post.likes.splice(post.likes.indexOf(req.user.userid), 1);
+    await post.save();
+  }
+  res.redirect('/profile');
+})
+
+//edit a post
+app.get('/edit/:id', authenticateToken, async (req, res) => {
+   let post = await postModel.findOne({_id: req.params.id}).populate('user');
+   res.render('edit', {post});
+})
+  
+//udate a post
+app.post('/update/:id', authenticateToken, async (req, res) => {
+   let post = await postModel.findOneAndUpdate({_id: req.params.id}, { title: req.body.title, content: req.body.content },
+  { new: true });
+   res.redirect('/profile');
+});
+
+//delete a post
+app.get('/delete/:id', authenticateToken, async (req, res) => {
+   await postModel.deleteOne({_id: req.params.id});
+   res.redirect('/profile');
+});
+
+  
 
 // Middleware to authenticate JWT
 function authenticateToken(req, res, next) {
